@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>星际猎场 - 小说阅读器</title>
     <style>
         :root {
@@ -128,7 +131,9 @@
         // 从GitHub API获取章节列表
         async function fetchChapterList() {
             try {
-                const response = await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.chaptersDir}?ref=${CONFIG.branch}`);
+                // 添加时间戳防止缓存
+                const timestamp = new Date().getTime();
+                const response = await fetch(`https://api.github.com/repos/${CONFIG.owner}/${CONFIG.repo}/contents/${CONFIG.chaptersDir}?ref=${CONFIG.branch}&_t=${timestamp}`);
                 if (!response.ok) throw new Error('获取章节列表失败');
                 
                 const data = await response.json();
